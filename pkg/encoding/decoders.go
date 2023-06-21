@@ -23,22 +23,21 @@ func (f DecoderFactoryFunc) CreateDecoder(ctx context.Context) (Decoder, error) 
 	return f(ctx)
 }
 
+// DecoderFactoryMap is a map of decoder factories.
 type DecoderFactoryMap map[string]DecoderFactory
 
+// Register adds a new decoder factory to the DecoderFactoryMap.
+func (m DecoderFactoryMap) Register(name string, factory DecoderFactory) {
+	m[name] = factory
+}
+
+// CreateDecoder creates a new decoder based on the given name and context.
 func (m DecoderFactoryMap) CreateDecoder(name string, ctx context.Context) (Decoder, error) {
 	factory, ok := m[name]
 	if !ok {
 		return nil, errors.New("no such decoder")
 	}
 	return factory.CreateDecoder(ctx)
-}
-
-func RegisterDecoderFactory(name string, factory DecoderFactory) {
-	decoderFactoryMap.Register(name, factory)
-}
-
-func CreateDecoder(name string, ctx context.Context) (Decoder, error) {
-	return decoderFactoryMap.CreateDecoder(name, ctx)
 }
 
 type UTF8Decoder struct{}

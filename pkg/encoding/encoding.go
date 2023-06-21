@@ -8,26 +8,39 @@ var (
 	decoderFactoryMap = DecoderFactoryMap{}
 )
 
+const (
+	UTF8     = "utf8"
+	GBK      = "gbk"
+	ShiftJIS = "shiftjis"
+)
+
 func init() {
-	decoderFactoryMap.Register("utf8", DecoderFactoryFunc(func(ctx context.Context) (Decoder, error) {
+	decoderFactoryMap.Register(UTF8, DecoderFactoryFunc(func(ctx context.Context) (Decoder, error) {
 		return &UTF8Decoder{}, nil
 	}))
-	decoderFactoryMap.Register("gbk", DecoderFactoryFunc(func(ctx context.Context) (Decoder, error) {
+	decoderFactoryMap.Register(GBK, DecoderFactoryFunc(func(ctx context.Context) (Decoder, error) {
 		return &GBKDecoder{}, nil
 	}))
-	decoderFactoryMap.Register("shiftjis", DecoderFactoryFunc(func(ctx context.Context) (Decoder, error) {
+	decoderFactoryMap.Register(ShiftJIS, DecoderFactoryFunc(func(ctx context.Context) (Decoder, error) {
 		return &ShiftJISDecoder{}, nil
 	}))
 }
 
-func (m DecoderFactoryMap) Register(name string, factory DecoderFactory) {
-	m[name] = factory
-}
-
+// Decode decodes the given byte slice using the specified decoder.
 func Decode(name string, src []byte, ctx context.Context) ([]byte, error) {
 	decoder, err := CreateDecoder(name, ctx)
 	if err != nil {
 		return nil, err
 	}
 	return decoder.Decode(src, ctx)
+}
+
+// Register adds a new decoder factory to the DecoderFactoryMap.
+func RegisterDecoderFactory(name string, factory DecoderFactory) {
+	decoderFactoryMap.Register(name, factory)
+}
+
+// CreateDecoder creates a new decoder based on the given name and context.
+func CreateDecoder(name string, ctx context.Context) (Decoder, error) {
+	return decoderFactoryMap.CreateDecoder(name, ctx)
 }
