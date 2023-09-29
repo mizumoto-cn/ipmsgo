@@ -16,7 +16,7 @@ This project is inspired by [mattn/go-ipmsg](<https://github.com/mattn/go-ipmsg>
 
 This project is licensed under the Mizumoto General Public License, Version 1.4. You can find the full license text in [LICENSE](./LICENSE/Mizumoto.General.Public.License.v1.4.md).
 
-The _entities_\* on the [Disqualified Entities List](./LICENSE/Disqualified.Entities.List.md) are prohibited from using _files_\*\* from this project in any way.
+The _entities_\* on the [Disqualified Entities List](./LICENSE/List_of_Disqualified_Entities.md) are prohibited from using _files_\*\* from this project in any way.
 
 ---
 > \*/\*\*: See chapter [#Restrictions for Users](./LICENSE/Mizumoto.General.Public.License.v1.4.md/#restrictions-for-users) for definitions of _entities_ and _files_.
